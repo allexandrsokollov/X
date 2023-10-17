@@ -1,0 +1,10 @@
+Django
+django-environ
+pip-tools
+psycopg2-binary
+djangorestframework
+daphne
+channels[daphne]
+zope-interface
+channels_redis
+environ
