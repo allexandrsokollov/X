@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 
-env.read_env(BASE_DIR.joinpath('.env'), overwrite=True)
+env.read_env(str(BASE_DIR.joinpath('.env')), overwrite=True)
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,6 +39,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'daphne',
+    'channels',
+    'drf_yasg',
 
     'core',
 
@@ -51,9 +53,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'rest_framework',
-    'daphne',
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,6 +81,12 @@ TEMPLATES = [
 ]
 
 
+
+WSGI_APPLICATION = 'config.wsgi.application'
+
+ASGI_APPLICATION = "config.asgi.application"
+
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": 'channels_redis.core.RedisChannelLayer',
@@ -90,11 +95,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
-
-WSGI_APPLICATION = 'config.wsgi.application'
-
-ASGI_APPLICATION = "config.asgi.application"
 
 
 # Database

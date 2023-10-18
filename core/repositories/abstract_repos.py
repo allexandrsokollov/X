@@ -5,6 +5,10 @@ from typing import Iterable
 class Repository(ABC):
 
     @abstractmethod
+    def __init__(self):
+        pass
+
+    @abstractmethod
     def get_all[T](self, filters: dict[str, T]) -> Iterable[T]:
         pass
 
@@ -21,17 +25,17 @@ class Repository(ABC):
         pass
 
     @abstractmethod
-    def create[T](self, model: T) -> T:
+    def create(self, **kwargs):
         pass
 
     @abstractmethod
-    def batch_create[T](self, models: Iterable[T]):
+    def batch_create[T](self, instances: Iterable[T]):
         pass
 
     @abstractmethod
-    def update[T](self, model: T) -> T:
+    def update[T](self, instance: T) -> T:
         pass
 
     @abstractmethod
-    def batch_update[T](self, models: Iterable[T]) -> Iterable[T]:
+    def batch_update[T](self, instances: Iterable[T]) -> Iterable[T]:
         pass

@@ -21,18 +21,18 @@ class Project(BaseModel):
     title = models.CharField(max_length=512)
     description = models.TextField()
     managers = models.ManyToManyField(User)
-    participants = models.ManyToManyField(User)
+    participants = models.ManyToManyField(User, related_name='projects')
     progress = models.FloatField(default=0)
 
 
 class Feature(BaseModel):
     title = models.CharField(max_length=512)
     description = models.TextField()
-    project = models.ForeignKey(Project, null=True, on_delete=models.SET_NULL)
-    executors = models.ManyToManyField(User)
+    project = models.ForeignKey(Project, null=True, on_delete=models.SET_NULL, related_name='feature')
+    executors = models.ManyToManyField(User, related_name='feature_executors')
 
 
 class Task(BaseModel):
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='task_owner')
     title = models.CharField(max_length=512)
     description = models.TextField()

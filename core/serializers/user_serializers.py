@@ -1,0 +1,15 @@
+from rest_framework.serializers import ModelSerializer
+
+from core.models import User
+
+
+class CreateUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['id', 'is_staff', 'is_active', 'groups', 'user_permissions']
+
+
+class DetailUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'created_at', 'updated_at']
