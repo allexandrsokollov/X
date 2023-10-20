@@ -20,22 +20,11 @@ class Repository(ABC):
     def delete(self, pk):
         pass
 
-    @abstractmethod
-    def batch_delete(self, pks: list):
-        pass
 
     @abstractmethod
     def create(self, **kwargs):
         pass
 
     @abstractmethod
-    def batch_create[T](self, instances: Iterable[T]):
-        pass
-
-    @abstractmethod
-    def update[T](self, instance: T) -> T:
-        pass
-
-    @abstractmethod
-    def batch_update[T](self, instances: Iterable[T]) -> Iterable[T]:
+    def update(self, pk, **kwargs):
         pass

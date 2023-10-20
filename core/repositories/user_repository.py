@@ -1,5 +1,6 @@
 from typing import Iterable, override
 
+from core.exceptions.repository_exceptions import NotFoundException
 from core.models import User
 from core.repositories.abstract_repos import Repository
 
@@ -11,7 +12,7 @@ class UserRepo(Repository):
         self.model = User
 
     @override
-    def get_all[T](self) -> Iterable[User]:
+    def get_all(self) -> Iterable[User]:
         objects = self.model.objects.all()
 
         return objects
@@ -25,22 +26,14 @@ class UserRepo(Repository):
         created = self.model.objects.create(**kwargs)
         return created
 
-    @override
-    def batch_create[T](self, instances: Iterable[T]):
-        pass
 
     @override
     def delete(self, pk):
-        pass
+        user = self.model.objects.filter(id=pk)
+        if not user:
+            raise NotFoundException(f'user with this pk: {pk} not found')
+        user.delete()
 
     @override
-    def batch_delete(self, pks: list):
-        pass
-
-    @override
-    def update[T](self, instance: T) -> T:
-        pass
-
-    @override
-    def batch_update[T](self, instances: Iterable[T]) -> Iterable[T]:
-        pass
+    def update(self,pk,  **kwargs):
+        User.objects.update(id=pk, **kwargs)

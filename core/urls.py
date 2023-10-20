@@ -1,8 +1,8 @@
 from django.urls import path
 
-from core.controllers.user_api import UserApiView
+from core.controllers.user_api import UserGetAllCreateApiView, UserGetUpdateApiView
 
 urlpatterns = [
-    path('users/', UserApiView.as_view()),
-    path('users/<str:pk>/', UserApiView.as_view()),
+    path('users/', UserGetAllCreateApiView.as_view()),
+    path('users/<str:pk>/', UserGetUpdateApiView.as_view()),
 ]

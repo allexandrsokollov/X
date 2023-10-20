@@ -20,8 +20,8 @@ class User(AbstractUser, BaseModel):
 class Project(BaseModel):
     title = models.CharField(max_length=512)
     description = models.TextField()
-    managers = models.ManyToManyField(User)
-    participants = models.ManyToManyField(User, related_name='projects')
+    managers = models.ManyToManyField(User, related_name='project_managers')
+    participants = models.ManyToManyField(User, related_name='projects_participants')
     progress = models.FloatField(default=0)
 
 

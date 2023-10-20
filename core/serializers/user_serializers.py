@@ -12,4 +12,10 @@ class CreateUserSerializer(ModelSerializer):
 class DetailUserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'created_at', 'updated_at']
+        fields = ['id', 'username', 'created_at', 'updated_at']
+
+
+class UpdateUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['id', 'is_staff', 'created_at', 'updated_at', 'groups', 'user_permissions']
