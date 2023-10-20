@@ -5,17 +5,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.exceptions.repository_exceptions import NotFoundException
-from core.models import User
-from core.repositories.abstract_repos import CRUDRepo
-from core.serializers.user_serializers import CreateUserSerializer, DetailUserSerializer, UpdateUserSerializer
+from core.models import Project
+from core.repositories.project_repository import ProjectRepo
+from core.serializers.project_serializers import ProjectSerializer, DetailProjectSerializer, CreateProjectSerializer, \
+    UpdateProjectSerializer
 
 
-class UserGetAllCreateApiView(APIView):
-    model_class = User
-    create_serializer = CreateUserSerializer
-    detail_serializer = DetailUserSerializer
+class ProjectGetAllCreateApiView(APIView):
+    model_class = Project
+    create_serializer = CreateProjectSerializer
+    detail_serializer = ProjectSerializer
 
-    repo = CRUDRepo
+    repo = ProjectRepo
 
     @swagger_auto_schema(
         request_body=create_serializer,
@@ -37,13 +38,13 @@ class UserGetAllCreateApiView(APIView):
         return Response(serializer.data)
 
 
-class UserGetDeleteUpdateApiView(APIView):
+class ProjectGetDeleteUpdateApiView(APIView):
 
-    model_class = User
-    detail_serializer = DetailUserSerializer
-    update_serializer = UpdateUserSerializer
+    model_class = Project
+    detail_serializer = DetailProjectSerializer
+    update_serializer = UpdateProjectSerializer
 
-    repo = CRUDRepo
+    repo = ProjectRepo
 
     @swagger_auto_schema(
         responses={'200': openapi.Response('response description', detail_serializer)}
@@ -67,7 +68,7 @@ class UserGetDeleteUpdateApiView(APIView):
 
         repo.update(pk=pk, **data.validated_data)
 
-        return Response(data.data)
+        return Response(self.update_serializer(data).data)
 
     def delete(self, request, pk:str = None):
         try:

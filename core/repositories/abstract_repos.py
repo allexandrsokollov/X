@@ -51,7 +51,6 @@ class CRUDRepo(Repository):
         created = self.model.objects.create(**kwargs)
         return created
 
-
     @override
     def delete(self, pk):
         user = self.model.objects.filter(id=pk)
