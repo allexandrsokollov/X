@@ -22,7 +22,6 @@ class Repository(ABC):
     def delete(self, pk):
         pass
 
-
     @abstractmethod
     def create(self, **kwargs):
         pass
