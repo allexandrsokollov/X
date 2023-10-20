@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.exceptions.repository_exceptions import NotFoundException
+from core.models import User
+from core.repositories.abstract_repos import CRUDRepo
 from core.serializers.user_serializers import DetailUserSerializer, CreateUserSerializer, UpdateUserSerializer
-from core.repositories.user_repository import UserRepo
 
 class UserGetAllCreateApiView(APIView):
 
@@ -18,14 +19,14 @@ class UserGetAllCreateApiView(APIView):
         user_data = CreateUserSerializer(data=self.request.data)
         user_data.is_valid(raise_exception=True)
 
-        new_user = user_data.save()
+        new_user = CRUDRepo(User).create(**user_data.validated_data)
         return Response(DetailUserSerializer(new_user).data)
 
     @swagger_auto_schema(
         responses={'200': openapi.Response('response description', DetailUserSerializer)}
     )
     def get(self, request):
-        queryset = UserRepo().get_all()
+        queryset = CRUDRepo(User).get_all()
         serializer = DetailUserSerializer(queryset, many=True)
         return Response({'data': serializer.data})
 
@@ -37,7 +38,7 @@ class UserGetUpdateApiView(APIView):
         responses={'200': openapi.Response('response description', DetailUserSerializer(many=True))}
     )
     def get(self, request, pk=None):
-        queryset = UserRepo().get_all()
+        queryset = CRUDRepo(User)
         user = get_object_or_404(queryset, pk=pk)
 
         serializer = DetailUserSerializer(user)
@@ -49,7 +50,7 @@ class UserGetUpdateApiView(APIView):
         responses={'200': openapi.Response('detail user serializer', DetailUserSerializer)}
     )
     def put(self, request, pk=None):
-        repo = UserRepo()
+        repo = CRUDRepo(User)
         old_user = repo.get(pk)
         data = UpdateUserSerializer(old_user, data=self.request.data)
         data.is_valid(raise_exception=True)
@@ -60,7 +61,7 @@ class UserGetUpdateApiView(APIView):
 
     def delete(self, request, pk:str = None):
         try:
-            repo = UserRepo()
+            repo = CRUDRepo(User)
             repo.delete(pk)
         except NotFoundException:
             return Response(status=404)
