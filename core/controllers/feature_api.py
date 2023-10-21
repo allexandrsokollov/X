@@ -73,7 +73,7 @@ class FeatureGetDeleteUpdateApiView(APIView):
         data.is_valid(raise_exception=True)
         updated_model = self.feature_service().update(pk=pk, **data.validated_data)
 
-        return Response(self.update_serializer(updated_model).data)
+        return Response(self.detail_serializer(updated_model).data)
 
     def delete(self, request, pk: str = None):
         try:

@@ -23,7 +23,7 @@ class DetailFeatureSerializer(ModelSerializer):
         return
 
     def get_executors(self, obj):
-        return DetailUserSerializer(obj.executors, many=True).data
+        return DetailUserSerializer(obj.executors.all(), many=True).data
 
     class Meta:
         model = Feature
