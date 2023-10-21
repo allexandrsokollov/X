@@ -1,15 +1,23 @@
 from rest_framework.serializers import ModelSerializer
-from rest_framework.serializers import SerializerMethodField, CharField, UUIDField, ListField
+from rest_framework.serializers import (
+    SerializerMethodField,
+    CharField,
+    UUIDField,
+    ListField,
+)
 
 from core.models import Feature
-from core.serializers.project_serializers import DetailProjectSerializer, ProjectSerializer
+from core.serializers.project_serializers import (
+    DetailProjectSerializer,
+    ProjectSerializer,
+)
 from core.serializers.user_serializers import DetailUserSerializer
 
 
 class FeatureSerializer(ModelSerializer):
     class Meta:
         model = Feature
-        fields = '__all__'
+        fields = "__all__"
 
 
 class DetailFeatureSerializer(ModelSerializer):
@@ -27,7 +35,7 @@ class DetailFeatureSerializer(ModelSerializer):
 
     class Meta:
         model = Feature
-        fields = '__all__'
+        fields = "__all__"
 
 
 class UpdateCreateFeatureSerializer(ModelSerializer):
@@ -39,9 +47,8 @@ class UpdateCreateFeatureSerializer(ModelSerializer):
     class Meta:
         model = Feature
         fields = [
-            'title',
-            'description',
-            'project',
-            'executors',
+            "title",
+            "description",
+            "project",
+            "executors",
         ]
-

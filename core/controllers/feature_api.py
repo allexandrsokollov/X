@@ -8,8 +8,11 @@ from rest_framework.views import APIView
 from core.exceptions.repository_exceptions import NotFoundException
 from core.models import Feature
 from core.repositories.feature_repository import FeatureRepo
-from core.serializers.feature_serializers import FeatureSerializer, DetailFeatureSerializer, \
-    UpdateCreateFeatureSerializer
+from core.serializers.feature_serializers import (
+    FeatureSerializer,
+    DetailFeatureSerializer,
+    UpdateCreateFeatureSerializer,
+)
 from core.services.feature_service import FeatureService
 
 
@@ -23,7 +26,7 @@ class FeatureGetAllCreateApiView(APIView):
 
     @swagger_auto_schema(
         request_body=create_serializer,
-        responses={'200': openapi.Response('detail serializer', detail_serializer)}
+        responses={"200": openapi.Response("detail serializer", detail_serializer)},
     )
     def post(self, request):
         model_data = self.create_serializer(data=self.request.data)
@@ -33,7 +36,11 @@ class FeatureGetAllCreateApiView(APIView):
         return Response(self.detail_serializer(new_model).data)
 
     @swagger_auto_schema(
-        responses={'200': openapi.Response('response description', detail_serializer(many=True))}
+        responses={
+            "200": openapi.Response(
+                "response description", detail_serializer(many=True)
+            )
+        }
     )
     def get(self, request):
         queryset = self.repo(self.model_class).get_all()
@@ -42,7 +49,6 @@ class FeatureGetAllCreateApiView(APIView):
 
 
 class FeatureGetDeleteUpdateApiView(APIView):
-
     model_class = Feature
     detail_serializer = DetailFeatureSerializer
     update_serializer = UpdateCreateFeatureSerializer
@@ -51,7 +57,7 @@ class FeatureGetDeleteUpdateApiView(APIView):
     feature_service = FeatureService
 
     @swagger_auto_schema(
-        responses={'200': openapi.Response('response description', detail_serializer)}
+        responses={"200": openapi.Response("response description", detail_serializer)}
     )
     def get(self, request, pk=None):
         queryset = self.repo(self.model_class)
@@ -62,7 +68,9 @@ class FeatureGetDeleteUpdateApiView(APIView):
 
     @swagger_auto_schema(
         request_body=update_serializer,
-        responses={'200': openapi.Response('detail user serializer', update_serializer)}
+        responses={
+            "200": openapi.Response("detail user serializer", update_serializer)
+        },
     )
     @transaction.atomic
     def put(self, request, pk=None):

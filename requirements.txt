@@ -21,6 +21,8 @@ autobahn==23.6.2
     # via daphne
 automat==22.10.0
     # via twisted
+black==23.10.0
+    # via -r requirements.in
 build==1.0.3
     # via pip-tools
 cffi==1.16.0
@@ -32,7 +34,9 @@ channels[daphne]==4.0.0
 channels-redis==4.1.0
     # via -r requirements.in
 click==8.1.7
-    # via pip-tools
+    # via
+    #   black
+    #   pip-tools
 constantly==15.1.0
     # via twisted
 cryptography==41.0.4
@@ -78,12 +82,19 @@ jsonschema-specifications==2023.7.1
     # via jsonschema
 msgpack==1.0.7
     # via channels-redis
+mypy-extensions==1.0.0
+    # via black
 packaging==23.2
     # via
+    #   black
     #   build
     #   drf-yasg
+pathspec==0.11.2
+    # via black
 pip-tools==7.3.0
     # via -r requirements.in
+platformdirs==3.11.0
+    # via black
 psycopg2-binary==2.9.9
     # via -r requirements.in
 pyasn1==0.5.0

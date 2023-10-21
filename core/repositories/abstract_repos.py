@@ -5,7 +5,6 @@ from core.exceptions.repository_exceptions import NotFoundException
 
 
 class Repository(ABC):
-
     @abstractmethod
     def __init__(self):
         pass
@@ -54,9 +53,9 @@ class CRUDRepo(Repository):
     def delete(self, pk):
         user = self.model.objects.filter(id=pk)
         if not user:
-            raise NotFoundException(f'user with this pk: {pk} not found')
+            raise NotFoundException(f"user with this pk: {pk} not found")
         user.delete()
 
     @override
-    def update(self, pk,  **kwargs):
+    def update(self, pk, **kwargs):
         self.model.objects.update(id=pk, **kwargs)

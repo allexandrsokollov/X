@@ -8,8 +8,12 @@ from rest_framework.views import APIView
 from core.exceptions.repository_exceptions import NotFoundException
 from core.models import Project
 from core.repositories.project_repository import ProjectRepo
-from core.serializers.project_serializers import ProjectSerializer, DetailProjectSerializer, CreateProjectSerializer, \
-    UpdateProjectSerializer
+from core.serializers.project_serializers import (
+    ProjectSerializer,
+    DetailProjectSerializer,
+    CreateProjectSerializer,
+    UpdateProjectSerializer,
+)
 
 
 class ProjectGetAllCreateApiView(APIView):
@@ -21,7 +25,7 @@ class ProjectGetAllCreateApiView(APIView):
 
     @swagger_auto_schema(
         request_body=create_serializer,
-        responses={'200': openapi.Response('detail serializer', detail_serializer)}
+        responses={"200": openapi.Response("detail serializer", detail_serializer)},
     )
     def post(self, request):
         model_data = self.create_serializer(data=self.request.data)
@@ -31,7 +35,11 @@ class ProjectGetAllCreateApiView(APIView):
         return Response(self.detail_serializer(new_model).data)
 
     @swagger_auto_schema(
-        responses={'200': openapi.Response('response description', detail_serializer(many=True))}
+        responses={
+            "200": openapi.Response(
+                "response description", detail_serializer(many=True)
+            )
+        }
     )
     def get(self, request):
         queryset = self.repo(self.model_class).get_all()
@@ -40,7 +48,6 @@ class ProjectGetAllCreateApiView(APIView):
 
 
 class ProjectGetDeleteUpdateApiView(APIView):
-
     model_class = Project
     detail_serializer = DetailProjectSerializer
     update_serializer = UpdateProjectSerializer
@@ -48,7 +55,7 @@ class ProjectGetDeleteUpdateApiView(APIView):
     repo = ProjectRepo
 
     @swagger_auto_schema(
-        responses={'200': openapi.Response('response description', detail_serializer)}
+        responses={"200": openapi.Response("response description", detail_serializer)}
     )
     def get(self, request, pk=None):
         queryset = self.repo(self.model_class)
@@ -59,7 +66,9 @@ class ProjectGetDeleteUpdateApiView(APIView):
 
     @swagger_auto_schema(
         request_body=update_serializer,
-        responses={'200': openapi.Response('detail user serializer', update_serializer)}
+        responses={
+            "200": openapi.Response("detail user serializer", update_serializer)
+        },
     )
     @transaction.atomic
     def put(self, request, pk=None):

@@ -7,55 +7,110 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.UUIDField(db_index=True, default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=512)),
-                ('description', models.TextField()),
-                ('owner', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='task_owner', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        db_index=True,
+                        default=uuid.uuid4,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=512)),
+                ("description", models.TextField()),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="task_owner",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Project',
+            name="Project",
             fields=[
-                ('id', models.UUIDField(db_index=True, default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=512)),
-                ('description', models.TextField()),
-                ('progress', models.FloatField(default=0)),
-                ('managers', models.ManyToManyField(related_name='project_managers', to=settings.AUTH_USER_MODEL)),
-                ('participants', models.ManyToManyField(related_name='projects_participants', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        db_index=True,
+                        default=uuid.uuid4,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=512)),
+                ("description", models.TextField()),
+                ("progress", models.FloatField(default=0)),
+                (
+                    "managers",
+                    models.ManyToManyField(
+                        related_name="project_managers", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "participants",
+                    models.ManyToManyField(
+                        related_name="projects_participants",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Feature',
+            name="Feature",
             fields=[
-                ('id', models.UUIDField(db_index=True, default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=512)),
-                ('description', models.TextField()),
-                ('executors', models.ManyToManyField(related_name='feature_executors', to=settings.AUTH_USER_MODEL)),
-                ('project', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='feature', to='core.project')),
+                (
+                    "id",
+                    models.UUIDField(
+                        db_index=True,
+                        default=uuid.uuid4,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=512)),
+                ("description", models.TextField()),
+                (
+                    "executors",
+                    models.ManyToManyField(
+                        related_name="feature_executors", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "project",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="feature",
+                        to="core.project",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]
