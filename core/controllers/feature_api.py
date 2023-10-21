@@ -1,23 +1,25 @@
 from django.db import transaction
-from django.shortcuts import get_object_or_404
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.exceptions.repository_exceptions import NotFoundException
-from core.models import Project
-from core.repositories.project_repository import ProjectRepo
-from core.serializers.project_serializers import ProjectSerializer, DetailProjectSerializer, CreateProjectSerializer, \
-    UpdateProjectSerializer
+from core.models import Feature
+from core.repositories.feature_repository import FeatureRepo
+from core.serializers.feature_serializers import FeatureSerializer, DetailFeatureSerializer, \
+    UpdateCreateFeatureSerializer
+from core.services.feature_service import FeatureService
 
 
-class ProjectGetAllCreateApiView(APIView):
-    model_class = Project
-    create_serializer = CreateProjectSerializer
-    detail_serializer = ProjectSerializer
+class FeatureGetAllCreateApiView(APIView):
+    model_class = Feature
+    create_serializer = UpdateCreateFeatureSerializer
+    detail_serializer = FeatureSerializer
 
-    repo = ProjectRepo
+    feature_service = FeatureService
+    repo = FeatureRepo
 
     @swagger_auto_schema(
         request_body=create_serializer,
@@ -27,7 +29,7 @@ class ProjectGetAllCreateApiView(APIView):
         model_data = self.create_serializer(data=self.request.data)
         model_data.is_valid(raise_exception=True)
 
-        new_model = self.repo(self.model_class).create(**model_data.validated_data)
+        new_model = self.feature_service().create(**model_data.validated_data)
         return Response(self.detail_serializer(new_model).data)
 
     @swagger_auto_schema(
@@ -39,13 +41,14 @@ class ProjectGetAllCreateApiView(APIView):
         return Response(serializer.data)
 
 
-class ProjectGetDeleteUpdateApiView(APIView):
+class FeatureGetDeleteUpdateApiView(APIView):
 
-    model_class = Project
-    detail_serializer = DetailProjectSerializer
-    update_serializer = UpdateProjectSerializer
+    model_class = Feature
+    detail_serializer = DetailFeatureSerializer
+    update_serializer = UpdateCreateFeatureSerializer
 
-    repo = ProjectRepo
+    repo = FeatureRepo
+    feature_service = FeatureService
 
     @swagger_auto_schema(
         responses={'200': openapi.Response('response description', detail_serializer)}
@@ -65,13 +68,12 @@ class ProjectGetDeleteUpdateApiView(APIView):
     def put(self, request, pk=None):
         repo = self.repo(self.model_class)
         old_model = repo.get(pk)
+
         data = self.update_serializer(old_model, data=self.request.data)
-
         data.is_valid(raise_exception=True)
-        repo.update(pk=pk, **data.validated_data)
-        new_model = repo.get(pk)
+        updated_model = self.feature_service().update(pk=pk, **data.validated_data)
 
-        return Response(self.detail_serializer(new_model).data)
+        return Response(self.update_serializer(updated_model).data)
 
     def delete(self, request, pk: str = None):
         try:

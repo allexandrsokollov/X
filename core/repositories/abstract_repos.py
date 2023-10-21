@@ -58,5 +58,5 @@ class CRUDRepo(Repository):
         user.delete()
 
     @override
-    def update(self,pk,  **kwargs):
+    def update(self, pk,  **kwargs):
         self.model.objects.update(id=pk, **kwargs)

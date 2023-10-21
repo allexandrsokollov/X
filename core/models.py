@@ -29,11 +29,12 @@ class Feature(BaseModel):
     title = models.CharField(max_length=512)
     description = models.TextField()
     project = models.ForeignKey(Project, null=True, on_delete=models.SET_NULL, related_name='features')
-    executors = models.ManyToManyField(User, related_name='feature_executors')
+    executors = models.ManyToManyField(User, related_name='feature_executors', default=[])
 
 
 class Task(BaseModel):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='task_owner')
     feature = models.ForeignKey(Feature, on_delete=models.SET_NULL, null=True, related_name='tasks')
     title = models.CharField(max_length=512)
+    is_completed = models.BooleanField(default=False)
     description = models.TextField()

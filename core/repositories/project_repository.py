@@ -9,6 +9,7 @@ from core.repositories.abstract_repos import CRUDRepo
 
 class ProjectRepo(CRUDRepo):
     @override
+    @transaction.atomic
     def get(self, pk):
         project = self.model.objects.filter(id=pk).prefetch_related('managers', 'participants').first()
         return project
@@ -31,6 +32,7 @@ class ProjectRepo(CRUDRepo):
     @override
     @transaction.atomic()
     def update(self, pk, **kwargs):
+
         managers = copy(kwargs['managers'])
         participants = copy(kwargs['participants'])
         del kwargs['managers']
@@ -48,3 +50,4 @@ class ProjectRepo(CRUDRepo):
         project.managers.set(managers)
 
         project.save()
+        return project
