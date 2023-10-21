@@ -8,6 +8,10 @@ from core.controllers.project_api import (
     ProjectGetAllCreateApiView,
     ProjectGetDeleteUpdateApiView,
 )
+from core.controllers.task_api import (
+    TaskGetAllCreateApiView,
+    TaskGetDeleteUpdateApiView,
+)
 from core.controllers.user_api import (
     UserGetAllCreateApiView,
     UserGetDeleteUpdateApiView,
@@ -20,4 +24,6 @@ urlpatterns = [
     path("projects/<str:pk>", ProjectGetDeleteUpdateApiView.as_view()),
     path("features/", FeatureGetAllCreateApiView.as_view()),
     path("features/<str:pk>", FeatureGetDeleteUpdateApiView.as_view()),
+    path("task/", TaskGetAllCreateApiView.as_view()),
+    path("task/<str:pk>", TaskGetDeleteUpdateApiView.as_view()),
 ]

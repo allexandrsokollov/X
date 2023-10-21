@@ -51,4 +51,5 @@ class UpdateCreateFeatureSerializer(ModelSerializer):
             "description",
             "project",
             "executors",
+            "is_completed",
         ]

@@ -34,6 +34,7 @@ class Feature(BaseModel):
     executors = models.ManyToManyField(
         User, related_name="feature_executors", default=[]
     )
+    is_completed = models.BooleanField(default=False)
 
 
 class Task(BaseModel):

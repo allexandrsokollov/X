@@ -58,4 +58,4 @@ class CRUDRepo(Repository):
 
     @override
     def update(self, pk, **kwargs):
-        self.model.objects.update(id=pk, **kwargs)
+        self.model.objects.filter(id=pk).update(**kwargs)
