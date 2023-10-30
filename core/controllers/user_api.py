@@ -31,25 +31,20 @@ class UserGetAllCreateApiView(APIView):
         user_data = self.create_serializer(data=self.request.data)
         user_data.is_valid(raise_exception=True)
 
-        username = user_data.validated_data.get("username")
-        password = user_data.validated_data.get("password")
-
-        if not username:
+        if not user_data.validated_data.get("username"):
             return Response(status=400, data={"message": "Username is None"})
-        if not password:
+        if not user_data.validated_data.get("password"):
             return Response(status=400, data={"message": "Password is None"})
 
-        if self.model_class.objects.filter(username=username).exists():
+        if self.model_class.objects.filter(username=user_data.validated_data.get("username")).exists():
             return Response(
                 status=400,
                 data={
-                    "message": f"Username with this {username} username already exists"
+                    "message": f"Username with this {user_data.validated_data.get("username")} username already exists"
                 },
             )
 
-        new_user = self.model_class.objects.create_user(
-            username=username, password=password, **user_data.validated_data
-        )
+        new_user = self.model_class.objects.create_user(**user_data.validated_data)
         return Response(self.detail_serializer(new_user).data)
 
     @swagger_auto_schema(
