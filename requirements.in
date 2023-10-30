@@ -9,3 +9,5 @@ zope-interface
 channels_redis
 environ
 drf-yasg[validation]
+black
+djoser

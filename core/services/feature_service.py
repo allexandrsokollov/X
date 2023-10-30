@@ -14,8 +14,8 @@ class FeatureService:
 
     @transaction.atomic
     def create(self, **kwargs):
-        project = copy(kwargs['project'])
-        del kwargs['project']
+        project = copy(kwargs["project"])
+        del kwargs["project"]
 
         feature = self.feature_repo.create(**kwargs)
 
@@ -26,10 +26,10 @@ class FeatureService:
         return feature
 
     @transaction.atomic
-    def update(self, pk,  **kwargs):
-        if 'project' in kwargs:
-            project = kwargs['project']
-            del kwargs['project']
+    def update(self, pk, **kwargs):
+        if "project" in kwargs:
+            project = kwargs["project"]
+            del kwargs["project"]
 
             project_instance = self.project_repo.get(pk=project)
             updated_feature = self.feature_repo.update(pk, **kwargs)

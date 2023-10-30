@@ -11,16 +11,20 @@ class ProjectRepo(CRUDRepo):
     @override
     @transaction.atomic
     def get(self, pk):
-        project = self.model.objects.filter(id=pk).prefetch_related('managers', 'participants').first()
+        project = (
+            self.model.objects.filter(id=pk)
+            .prefetch_related("managers", "participants")
+            .first()
+        )
         return project
 
     @override
     @transaction.atomic
     def create(self, **kwargs):
-        managers = copy(kwargs['managers'])
-        participants = copy(kwargs['participants'])
-        del kwargs['managers']
-        del kwargs['participants']
+        managers = copy(kwargs["managers"])
+        participants = copy(kwargs["participants"])
+        del kwargs["managers"]
+        del kwargs["participants"]
 
         created = self.model.objects.create(**kwargs)
         created.managers.set(managers)
@@ -32,11 +36,10 @@ class ProjectRepo(CRUDRepo):
     @override
     @transaction.atomic()
     def update(self, pk, **kwargs):
-
-        managers = copy(kwargs['managers'])
-        participants = copy(kwargs['participants'])
-        del kwargs['managers']
-        del kwargs['participants']
+        managers = copy(kwargs["managers"])
+        participants = copy(kwargs["participants"])
+        del kwargs["managers"]
+        del kwargs["participants"]
 
         project = self.model.objects.filter(id=pk).first()
 

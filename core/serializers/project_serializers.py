@@ -1,6 +1,12 @@
 from rest_framework.serializers import ModelSerializer
 
-from rest_framework.serializers import FloatField, ListField, UUIDField, CharField, SerializerMethodField
+from rest_framework.serializers import (
+    FloatField,
+    ListField,
+    UUIDField,
+    CharField,
+    SerializerMethodField,
+)
 
 from core.models import Project
 from core.serializers.user_serializers import DetailUserSerializer
@@ -9,7 +15,7 @@ from core.serializers.user_serializers import DetailUserSerializer
 class ProjectSerializer(ModelSerializer):
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = "__all__"
 
 
 class DetailProjectSerializer(ModelSerializer):
@@ -24,7 +30,7 @@ class DetailProjectSerializer(ModelSerializer):
 
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CreateProjectSerializer(ModelSerializer):
@@ -34,7 +40,7 @@ class CreateProjectSerializer(ModelSerializer):
 
     class Meta:
         model = Project
-        exclude = ['id']
+        exclude = ["id"]
 
 
 class UpdateProjectSerializer(ModelSerializer):
@@ -47,9 +53,9 @@ class UpdateProjectSerializer(ModelSerializer):
     class Meta:
         model = Project
         fields = [
-            'title',
-            'progress',
-            'description',
-            'participants',
-            'managers',
+            "title",
+            "progress",
+            "description",
+            "participants",
+            "managers",
         ]

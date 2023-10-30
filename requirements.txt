@@ -21,8 +21,12 @@ autobahn==23.6.2
     # via daphne
 automat==22.10.0
     # via twisted
+black==23.10.0
+    # via -r requirements.in
 build==1.0.3
     # via pip-tools
+certifi==2023.7.22
+    # via requests
 cffi==1.16.0
     # via cryptography
 channels[daphne]==4.0.0
@@ -31,8 +35,12 @@ channels[daphne]==4.0.0
     #   channels-redis
 channels-redis==4.1.0
     # via -r requirements.in
+charset-normalizer==3.3.0
+    # via requests
 click==8.1.7
-    # via pip-tools
+    # via
+    #   black
+    #   pip-tools
 constantly==15.1.0
     # via twisted
 cryptography==41.0.4
@@ -40,22 +48,37 @@ cryptography==41.0.4
     #   autobahn
     #   pyopenssl
     #   service-identity
+    #   social-auth-core
 daphne==4.0.0
     # via
     #   -r requirements.in
     #   channels
+defusedxml==0.8.0rc2
+    # via
+    #   python3-openid
+    #   social-auth-core
 django==4.2.6
     # via
     #   -r requirements.in
     #   channels
     #   djangorestframework
+    #   djangorestframework-simplejwt
+    #   djoser
     #   drf-yasg
+    #   social-auth-app-django
 django-environ==0.11.2
     # via -r requirements.in
+django-templated-mail==1.1.1
+    # via djoser
 djangorestframework==3.14.0
     # via
     #   -r requirements.in
+    #   djangorestframework-simplejwt
     #   drf-yasg
+djangorestframework-simplejwt==5.3.0
+    # via djoser
+djoser==2.2.0
+    # via -r requirements.in
 drf-yasg[validation]==1.21.7
     # via -r requirements.in
 environ==1.0
@@ -67,6 +90,7 @@ hyperlink==21.0.0
 idna==3.4
     # via
     #   hyperlink
+    #   requests
     #   twisted
 incremental==22.10.0
     # via twisted
@@ -78,12 +102,23 @@ jsonschema-specifications==2023.7.1
     # via jsonschema
 msgpack==1.0.7
     # via channels-redis
+mypy-extensions==1.0.0
+    # via black
+oauthlib==3.2.2
+    # via
+    #   requests-oauthlib
+    #   social-auth-core
 packaging==23.2
     # via
+    #   black
     #   build
     #   drf-yasg
+pathspec==0.11.2
+    # via black
 pip-tools==7.3.0
     # via -r requirements.in
+platformdirs==3.11.0
+    # via black
 psycopg2-binary==2.9.9
     # via -r requirements.in
 pyasn1==0.5.0
@@ -94,10 +129,16 @@ pyasn1-modules==0.3.0
     # via service-identity
 pycparser==2.21
     # via cffi
+pyjwt==2.8.0
+    # via
+    #   djangorestframework-simplejwt
+    #   social-auth-core
 pyopenssl==23.2.0
     # via twisted
 pyproject-hooks==1.0.0
     # via build
+python3-openid==3.2.0
+    # via social-auth-core
 pytz==2023.3.post1
     # via
     #   djangorestframework
@@ -112,6 +153,12 @@ referencing==0.30.2
     # via
     #   jsonschema
     #   jsonschema-specifications
+requests==2.31.0
+    # via
+    #   requests-oauthlib
+    #   social-auth-core
+requests-oauthlib==1.3.1
+    # via social-auth-core
 rpds-py==0.10.6
     # via
     #   jsonschema
@@ -120,6 +167,10 @@ service-identity==23.1.0
     # via twisted
 six==1.16.0
     # via automat
+social-auth-app-django==5.4.0
+    # via djoser
+social-auth-core==4.4.2
+    # via social-auth-app-django
 sqlparse==0.4.4
     # via django
 swagger-spec-validator==3.0.3
@@ -134,6 +185,8 @@ typing-extensions==4.8.0
     #   twisted
 uritemplate==4.1.1
     # via drf-yasg
+urllib3==2.0.7
+    # via requests
 wheel==0.41.2
     # via pip-tools
 zope-interface==6.1
