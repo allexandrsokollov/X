@@ -3,6 +3,8 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from core.managers.user_manager import UserManager
+
 
 class BaseModel(models.Model):
     class Meta:
@@ -15,6 +17,8 @@ class BaseModel(models.Model):
 
 class User(AbstractUser, BaseModel):
     username = models.CharField(max_length=128, unique=True, db_index=True)
+
+    objects = UserManager()
 
 
 class Project(BaseModel):
