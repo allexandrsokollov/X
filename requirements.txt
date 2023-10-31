@@ -76,7 +76,9 @@ djangorestframework==3.14.0
     #   djangorestframework-simplejwt
     #   drf-yasg
 djangorestframework-simplejwt==5.3.0
-    # via djoser
+    # via
+    #   -r requirements.in
+    #   djoser
 djoser==2.2.0
     # via -r requirements.in
 drf-yasg[validation]==1.21.7

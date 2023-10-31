@@ -1,13 +1,14 @@
 from django.shortcuts import get_object_or_404
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import permission_classes
+
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.exceptions.repository_exceptions import NotFoundException
 from core.models import User
+from core.permissions import IsOwner
 from core.repositories.abstract_repos import CRUDRepo
 from core.serializers.user_serializers import (
     CreateUserSerializer,
@@ -16,7 +17,7 @@ from core.serializers.user_serializers import (
 )
 
 
-class UserGetAllCreateApiView(APIView):
+class UserCreateApiView(APIView):
     model_class = User
     create_serializer = CreateUserSerializer
     detail_serializer = DetailUserSerializer
@@ -47,19 +48,6 @@ class UserGetAllCreateApiView(APIView):
         new_user = self.model_class.objects.create_user(**user_data.validated_data)
         return Response(self.detail_serializer(new_user).data)
 
-    @swagger_auto_schema(
-        responses={
-            "200": openapi.Response(
-                "response description", detail_serializer(many=True)
-            )
-        }
-    )
-    @permission_classes([IsAdminUser])
-    def get(self, request):
-        queryset = self.repo(self.model_class).get_all()
-        serializer = self.detail_serializer(queryset, many=True)
-        return Response(serializer.data)
-
 
 class UserGetDeleteUpdateApiView(APIView):
     model_class = User
@@ -68,17 +56,13 @@ class UserGetDeleteUpdateApiView(APIView):
 
     repo = CRUDRepo
 
+    permission_classes = [IsOwner, IsAdminUser]
+
     @swagger_auto_schema(
         responses={"200": openapi.Response("response description", detail_serializer)}
     )
-    @permission_classes([IsAuthenticated])
     def get(self, request, pk=None):
         queryset = self.repo(self.model_class)
-        request_user = self.request.user
-
-        if request_user.id != pk:
-            return Response(status=403)
-
         user = get_object_or_404(queryset, pk=pk)
 
         serializer = self.detail_serializer(user)
@@ -90,12 +74,7 @@ class UserGetDeleteUpdateApiView(APIView):
             "200": openapi.Response("detail user serializer", update_serializer)
         },
     )
-    @permission_classes([IsAuthenticated])
     def put(self, request, pk=None):
-        request_user = self.request.user
-
-        if request_user.id != pk:
-            return Response(status=403)
 
         repo = self.repo(self.model_class)
         old_user = repo.get(pk)
@@ -106,13 +85,7 @@ class UserGetDeleteUpdateApiView(APIView):
 
         return Response(data.data)
 
-    @permission_classes([IsAuthenticated])
     def delete(self, request, pk: str = None):
-        request_user = self.request.user
-
-        if request_user.id != pk:
-            return Response(status=403)
-
         try:
             repo = self.repo(self.model_class)
             repo.delete(pk)

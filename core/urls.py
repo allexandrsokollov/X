@@ -13,12 +13,12 @@ from core.controllers.task_api import (
     TaskGetDeleteUpdateApiView,
 )
 from core.controllers.user_api import (
-    UserGetAllCreateApiView,
+    UserCreateApiView,
     UserGetDeleteUpdateApiView,
 )
 
 urlpatterns = [
-    path("users/", UserGetAllCreateApiView.as_view()),
+    path("users/", UserCreateApiView.as_view()),
     path("users/<str:pk>", UserGetDeleteUpdateApiView.as_view()),
     path("projects/", ProjectGetAllCreateApiView.as_view()),
     path("projects/<str:pk>", ProjectGetDeleteUpdateApiView.as_view()),
