@@ -11,3 +11,4 @@ environ
 drf-yasg[validation]
 black
 djoser
+djangorestframework-simplejwt
